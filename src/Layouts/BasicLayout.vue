@@ -4,6 +4,7 @@
     <Layout :style="{marginLeft: '200px'}">
         <Headers></Headers>
         <Content :style="{padding: '0 16px 16px'}">
+          <router-view></router-view>
         </Content>
     </Layout>
   </div>

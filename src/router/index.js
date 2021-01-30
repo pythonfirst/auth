@@ -5,16 +5,20 @@ import NProgress from 'nprogress';
 // import RenderRouterView from '../components/RenderRouterView.vue'
 Vue.use(VueRouter);
 
+/**
+ * hiddenInMenu:true; 不需要在侧边栏渲染。
+ * label: 侧边栏显示的文案
+ */
 const routes = [
   {
     path: '/user',
-    redirect: '/user/login',
-  },
-  {
-    path: '/user',
-    // component: RenderRouterView,
+    hiddenInMenu: true, //是否需要渲染到侧边栏菜单,默认为true。
     component: { render: (h) => h('router-view') },
     children: [
+      {
+        path: '/user',
+        redirect: '/user/login',
+      },
       {
         path: '/user/login',
         name: 'login',
@@ -29,17 +33,18 @@ const routes = [
   },
   {
     path: '/',
-    // component: RenderRouterView,
-    // component: { render: h => h("router-view")},
     component: () => import(/* webpackChunkName: "analysis" */ '../Layouts/BasicLayout'),
     children: [
       {
         path: '/',
         redirect: '/dashboard/analysis',
       },
+      // dashboard 存在name则渲染在菜单，没有则不需要渲染
       {
         path: '/dashboard',
         name: 'dashboard',
+        label: '工作台',
+        meta: { icon: 'ios-navigate'},
         component: { render: (h) => h('router-view') },
         children: [
           {
@@ -49,23 +54,43 @@ const routes = [
           {
             path: '/dashboard/analysis',
             name: 'analysis',
+            label: '分析页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Analysis'),
+          },
+          {
+            path: '/dashboard/chart',
+            name: 'chart',
+            label: '图表页',
+            component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Chart'),
           },
         ],
       },
+      {
+        path: '/auth',
+        name: '权限控制',
+        label: '权限控制',
+        meta: { icon: 'md-briefcase'},
+        component: { render: (h) => h('router-view') },
+        children: [
+          {
+            path: '/auth',
+            redirect: '/auth/directive',
+          },
+          {
+            path: '/auth/directive',
+            name: 'directive',
+            label: '指令',
+            component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/Directive'),
+          },
+        ]
+
+      }
     ],
   },
   {
     path: '*',
+    showInMenu: false,
     component: () => import(/* webpackChunkName: "analysis" */ '../views/404'),
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
 ];
 

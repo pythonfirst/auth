@@ -1,14 +1,14 @@
 <template>
   <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-    <Menu active-name="1" width="auto" :open-names="['1']" :style="{ height: '100%'}">
+    <Menu active-name="1" width="auto" :open-names="[]" :style="{ height: '100%'}">
       <template
-        v-for="option in menus"
+        v-for="option in menuList"
       >
         <MenuItem
           v-if="!option.children"
-          :key="option.key"
-          :name="option.key">
-          <Icon :type="option.icon" />
+          :key="option.index"
+          :name="option.index">
+          <Icon :type="option.meta.icon" />
           {{option.label}}
         </MenuItem>
         <submenus v-else :key="option.key" :menuInfo="option"></submenus>
@@ -25,45 +25,66 @@ export default {
     submenus,
   },
   data() {
+    const menuList = this.getMenuList(this.$router.options.routes);
     return {
       menus: [
         {
-          key: '1',
+          index: '1',
           label: 'option1',
           icon: 'ios-navigate',
         },
         {
-          key: '2',
+          index: '2',
           label: 'option2',
           icon: 'ios-navigate',
           children: [
             {
-              key: '1-1',
+              index: '1-1',
               label: 'options1-1',
             }
           ]
         },
-         {
-          key: '3',
+        {
+          index: '3',
           label: 'option3',
           icon: 'ios-navigate',
           children: [
             {
-              key: '3-1',
+              index: '3-1',
               label: 'option3-1',
               children: [
                 {
-                  key: '3-1-1',
+                  index: '3-1-1',
                   label: 'option3-1-1',
                 }
               ]
             }
           ]
         }
-      ]
+      ],
+      menuList,
     }
-  }
-
+  },
+  methods: {
+    getMenuList(routes, key='') {
+      let menuList = [];
+      routes.forEach((route,index) => {
+        if (route.name && !route.hiddenInMenu) {
+          const newRoute = {...route}
+          newRoute.index = key ? `${key}-${index}` : `${index}`;  // menuitem 的key/name
+          if (newRoute.children) {
+            delete newRoute.children;
+            newRoute.children = this.getMenuList(route.children, index);
+          }
+          menuList.push(newRoute)
+        } else if (!route.name && !route.hiddenInMenu && route.children) {
+          menuList.push(...this.getMenuList(route.children));
+        }
+      });
+      console.log('menuList', menuList);
+      return menuList
+    }
+  },
 };
 </script>
 

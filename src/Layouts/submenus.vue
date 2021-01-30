@@ -1,18 +1,19 @@
 <template>
-  <Submenu :name="menuInfo.key">
+  <Submenu :name="menuInfo.index">
     <template slot="title">
-        <Icon :type="menuInfo.icon" />
+        <Icon v-if="menuInfo.meta.icon" :type="menuInfo.meta.icon" />
         {{menuInfo.label}}
     </template>
     <template v-for="option in menuInfo.children">
-      <MenuItem 
+      <MenuItem
+        :to="option.path"
         v-if="!option.children"
-        :key="option.key"
-        :name="option.key">
-        <Icon :type="option.icon" />
+        :key="option.index"
+        :name="option.index">
+        <!-- <Icon :type="option.meta.icon" /> -->
         {{option.label}}
       </MenuItem>
-      <submenus v-else :key="option.key" :menuInfo="option"></submenus>
+      <submenus v-else :key="option.index" :menuInfo="option"></submenus>
     </template>
 </Submenu>
 </template>
