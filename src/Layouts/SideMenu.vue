@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { check } from '../utils/auth'
 import submenus from './submenus'
 export default {
   name: 'SideMenu',
@@ -66,22 +67,27 @@ export default {
     }
   },
   methods: {
-    getMenuList(routes, key='') {
+    /**
+     * 
+     * @param {Array} routes 路由表
+     * @param {} key 生成memu-item的name值
+     */
+    getMenuList(routes, i='') {
       let menuList = [];
-      routes.forEach((route,index) => {
-        if (route.name && !route.hiddenInMenu) {
+      routes.forEach((route, index) => {
+        if (route.name && !route.hiddenInMenu && check(route.key)) {
           const newRoute = {...route}
-          newRoute.index = key ? `${key}-${index}` : `${index}`;  // menuitem 的key/name
+          newRoute.index = i ? `${i}-${index}` : `${index}`;  // menuitem 的key/name
           if (newRoute.children) {
             delete newRoute.children;
             newRoute.children = this.getMenuList(route.children, index);
           }
           menuList.push(newRoute)
-        } else if (!route.name && !route.hiddenInMenu && route.children) {
+        } else if (!route.name && !route.hiddenInMenu && route.children && check(route.key)) {
           menuList.push(...this.getMenuList(route.children));
         }
       });
-      console.log('menuList', menuList);
+      // console.log('menuList', menuList);
       return menuList
     }
   },

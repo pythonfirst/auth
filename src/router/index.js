@@ -8,6 +8,7 @@ Vue.use(VueRouter);
 /**
  * hiddenInMenu:true; 不需要在侧边栏渲染。
  * label: 侧边栏显示的文案
+ * key: 权限控制的key,需与服务端获取的一致才能跳转
  */
 const routes = [
   {
@@ -43,6 +44,7 @@ const routes = [
       {
         path: '/dashboard',
         name: 'dashboard',
+        key: 'dashboard',
         label: '工作台',
         meta: { icon: 'ios-navigate'},
         component: { render: (h) => h('router-view') },
@@ -54,12 +56,14 @@ const routes = [
           {
             path: '/dashboard/analysis',
             name: 'analysis',
+            key: 'dashboard_analysis',
             label: '分析页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Analysis'),
           },
           {
             path: '/dashboard/chart',
             name: 'chart',
+            key: 'dashboard_chart',
             label: '图表页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Chart'),
           },
@@ -68,6 +72,7 @@ const routes = [
       {
         path: '/auth',
         name: '权限控制',
+        key: 'auth',
         label: '权限控制',
         meta: { icon: 'md-briefcase'},
         component: { render: (h) => h('router-view') },
@@ -79,6 +84,7 @@ const routes = [
           {
             path: '/auth/directive',
             name: 'directive',
+            key: 'auth_directive',
             label: '指令',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/Directive'),
           },
@@ -101,6 +107,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  console.log('to', to);
   NProgress.start();
   next();
 });
