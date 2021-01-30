@@ -1,7 +1,5 @@
 <template>
-  <div>
-    login page
-  </div>
+  <div>Page not found 404</div>
 </template>
 
 <script>

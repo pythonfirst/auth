@@ -1,7 +1,5 @@
 <template>
-  <div>
-    login page
-  </div>
+  <div>Footer</div>
 </template>
 
 <script>

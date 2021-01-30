@@ -1,7 +1,5 @@
 <template>
-  <div>
-    login page
-  </div>
+  <div>dashboard analysis</div>
 </template>
 
 <script>

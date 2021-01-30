@@ -1,31 +1,63 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
-import RenderRouterView from '../components/RenderRouterView.vue'
+import NProgress from 'nprogress';
+// import Home from '../views/Home.vue';
+// import RenderRouterView from '../components/RenderRouterView.vue'
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/user',
+    redirect: '/user/login',
+  },
+  {
+    path: '/user',
     // component: RenderRouterView,
-    component: { render: h => h("router-view")},
+    component: { render: (h) => h('router-view') },
     children: [
       {
-        path: "/user/login",
+        path: '/user/login',
         name: 'login',
-        component: () => import (/* webpackChunkName: "user" */ "../views/user/Login")
+        component: () => import(/* webpackChunkName: "user" */ '../views/user/Login'),
       },
       {
-        path: "/user/register",
-        name: 'login',
-        component: () => import (/* webpackChunkName: "user" */ "../views/user/Register")
-      }
-    ]
+        path: '/user/register',
+        name: 'register',
+        component: () => import(/* webpackChunkName: "user" */ '../views/user/Register'),
+      },
+    ],
   },
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    // component: RenderRouterView,
+    // component: { render: h => h("router-view")},
+    component: () => import(/* webpackChunkName: "analysis" */ '../Layouts/BasicLayout'),
+    children: [
+      {
+        path: '/',
+        redirect: '/dashboard/analysis',
+      },
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: { render: (h) => h('router-view') },
+        children: [
+          {
+            path: '/dashboard',
+            redirect: '/dashboard/analysis',
+          },
+          {
+            path: '/dashboard/analysis',
+            name: 'analysis',
+            component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Analysis'),
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: '*',
+    component: () => import(/* webpackChunkName: "analysis" */ '../views/404'),
   },
   {
     path: '/about',
@@ -43,4 +75,12 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  NProgress.start();
+  next();
+});
+
+router.afterEach(() => {
+  NProgress.done();
+});
 export default router;

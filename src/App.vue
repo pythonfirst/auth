@@ -1,17 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <sideMenu></sideMenu>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
-import sideMenu from './components/sideMenu.vue';
-
 export default {
-  components: { sideMenu },
+  components: {},
 };
 </script>
 <style>
