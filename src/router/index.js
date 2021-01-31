@@ -108,6 +108,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   console.log('to', to);
+  TODO: // 路由守卫拦截没有权限的跳转
   NProgress.start();
   next();
 });
