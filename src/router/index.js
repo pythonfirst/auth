@@ -1,9 +1,23 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import NProgress from 'nprogress';
-// import Home from '../views/Home.vue';
-// import RenderRouterView from '../components/RenderRouterView.vue'
+import "nprogress/nprogress.css";
+import {check, isLogin} from '@/utils/auth'
+import findLast from "lodash";
 Vue.use(VueRouter);
+
+function findRoute(routes, path) {
+  for (let route of routes) {
+    if (route.path === path) {
+      return route?.meta?.key
+    }
+    if (route.children) {
+      const record = findRoute(route.children, path)
+      if (record) return record
+    }
+  }
+  return undefined
+}
 
 /**
  * hiddenInMenu:true; 不需要在侧边栏渲染。
@@ -57,11 +71,13 @@ const routes = [
             path: '/dashboard/analysis',
             name: 'analysis',
             key: 'dashboard_analysis',
+            meta: {key: 'dashboard_analysis'},
             label: '分析页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Analysis'),
           },
           {
             path: '/dashboard/chart',
+            meta: {key: 'dashboard_chart'},
             name: 'chart',
             key: 'dashboard_chart',
             label: '图表页',
@@ -83,6 +99,7 @@ const routes = [
           },
           {
             path: '/auth/directive',
+            meta: {key: 'auth_directive'},
             name: 'directive',
             key: 'auth_directive',
             label: '指令',
@@ -98,6 +115,15 @@ const routes = [
     showInMenu: false,
     component: () => import(/* webpackChunkName: "analysis" */ '../views/404'),
   },
+  {
+    path: '/403',
+    hiddenInMenu: true, //是否需要渲染到侧边栏菜单,默认为true。
+    component: () =>
+      import(
+        /* webpackChunkName: 'dashboard' */ "../views/403"
+      )
+  }
+
 ];
 
 const router = new VueRouter({
@@ -107,10 +133,23 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('to', to);
-  TODO: // 路由守卫拦截没有权限的跳转
-  NProgress.start();
-  next();
+  if (to.path !== from.path) {
+    NProgress.start();
+  }
+  const record = findRoute(routes, to.fullPath)
+  if (!check(record)) {
+    if (!isLogin() && to.path !== '/user/login') {
+      next({
+        path: '/user/login'
+      })
+    } else if (to.path !== '/403') {
+      next({
+        path: "/403"
+      });
+    }
+  } else {
+    next();
+  }
 });
 
 router.afterEach(() => {
