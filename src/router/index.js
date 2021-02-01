@@ -107,6 +107,14 @@ const routes = [
           },
         ]
 
+      },
+      {
+        path: '/403',
+        hiddenInMenu: true, //是否需要渲染到侧边栏菜单,默认为true。
+        component: () =>
+          import(
+            /* webpackChunkName: 'dashboard' */ "../views/403"
+          )
       }
     ],
   },
@@ -115,15 +123,6 @@ const routes = [
     showInMenu: false,
     component: () => import(/* webpackChunkName: "analysis" */ '../views/404'),
   },
-  {
-    path: '/403',
-    hiddenInMenu: true, //是否需要渲染到侧边栏菜单,默认为true。
-    component: () =>
-      import(
-        /* webpackChunkName: 'dashboard' */ "../views/403"
-      )
-  }
-
 ];
 
 const router = new VueRouter({
@@ -136,8 +135,8 @@ router.beforeEach((to, from, next) => {
   if (to.path !== from.path) {
     NProgress.start();
   }
-  const record = findRoute(routes, to.fullPath)
-  if (!check(record)) {
+  const key = findRoute(routes, to.fullPath)
+  if (!check(key)) {
     if (!isLogin() && to.path !== '/user/login') {
       next({
         path: '/user/login'
