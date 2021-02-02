@@ -2,7 +2,7 @@
  * 从服务端获取用户权限
  */
 export function getCurrentAuthority() {
-  return ['dashboard', 'dashboard_chart', 'auth', 'auth_directive']
+  return ['dashboard', 'dashboard_analysis', 'dashboard_chart', 'auth', 'auth_directive', 'auth_component']
 }
 
 /**

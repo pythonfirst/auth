@@ -102,11 +102,18 @@ const routes = [
             meta: {key: 'auth_directive'},
             name: 'directive',
             key: 'auth_directive',
-            label: '指令',
+            label: '自定义指令',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/Directive'),
           },
+          {
+            path: '/auth/component',
+            meta: {key: 'auth_component'},
+            name: 'component',
+            key: 'auth_component',
+            label: '函数式组件',
+            component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/component'),
+          },
         ]
-
       },
       {
         path: '/403',

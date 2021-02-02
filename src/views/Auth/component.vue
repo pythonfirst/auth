@@ -1,7 +1,9 @@
 <template>
   <div>
-    <A v-permission="'dashboard_analysis='"></A>
-    <B></B>
+    <Authorized :role="'dashboard_analysis='">
+      <C></C>
+    </Authorized>
+    <D></D>
   </div>
 </template>
 
@@ -9,8 +11,9 @@
 import A from './components/A'
 import B from './components/B'
 import C from './components/C'
+import D from './components/D'
 export default {
-  components: { A, B, C}
+  components: { A, B, C, D}
 }
 </script>
 

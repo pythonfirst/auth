@@ -6,16 +6,16 @@
 export default {
   name: 'C',
   created() {
-    console.log('=====directive created C=====')
+    console.log('=====render component created C=====')
   },
   mounted() {
-    console.log('=====directive mounted C=====')
+    console.log('=====render component mounted C=====')
   },
   beforeDestroy() {
-    console.log('=====directive beforeDetroy C=====')
+    console.log('=====render component beforeDetroy C=====')
   },
   destroyed() {
-    console.log('=====directive destroyed C=====')
+    console.log('=====render component destroyed C=====')
   },
 }
 </script>
