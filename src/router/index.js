@@ -6,6 +6,11 @@ import {check, isLogin} from '@/utils/auth'
 import findLast from "lodash";
 Vue.use(VueRouter);
 
+/**
+ * 递归寻找目标路由的key值
+ * @param {Array} routes 路由表
+ * @param {String} path 目标path
+ */
 function findRoute(routes, path) {
   for (let route of routes) {
     if (route.path === path) {
@@ -20,9 +25,11 @@ function findRoute(routes, path) {
 }
 
 /**
- * hiddenInMenu:true; 不需要在侧边栏渲染。
+ * name 无name属性的不在侧边栏渲染
+ * hiddenInMenu:true; 该路由及其子菜单不需要在侧边栏渲染。
  * label: 侧边栏显示的文案
- * key: 权限控制的key,需与服务端获取的一致才能跳转
+ * meta.key: 权限控制的key,需与服务端获取的一致才能跳转
+ * meta.icon 菜单栏显示的图标
  */
 const routes = [
   {
@@ -54,13 +61,11 @@ const routes = [
         path: '/',
         redirect: '/dashboard/analysis',
       },
-      // dashboard 存在name则渲染在菜单，没有则不需要渲染
       {
         path: '/dashboard',
         name: 'dashboard',
-        key: 'dashboard',
         label: '工作台',
-        meta: { icon: 'ios-navigate'},
+        meta: { icon: 'ios-navigate', key: 'dashboard'},
         component: { render: (h) => h('router-view') },
         children: [
           {
@@ -70,7 +75,6 @@ const routes = [
           {
             path: '/dashboard/analysis',
             name: 'analysis',
-            key: 'dashboard_analysis',
             meta: {key: 'dashboard_analysis'},
             label: '分析页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Analysis'),
@@ -79,7 +83,6 @@ const routes = [
             path: '/dashboard/chart',
             meta: {key: 'dashboard_chart'},
             name: 'chart',
-            key: 'dashboard_chart',
             label: '图表页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Chart'),
           },
@@ -88,9 +91,8 @@ const routes = [
       {
         path: '/auth',
         name: '权限控制',
-        key: 'auth',
         label: '权限控制',
-        meta: { icon: 'md-briefcase'},
+        meta: { icon: 'md-briefcase', key: 'auth'},
         component: { render: (h) => h('router-view') },
         children: [
           {
@@ -101,7 +103,6 @@ const routes = [
             path: '/auth/directive',
             meta: {key: 'auth_directive'},
             name: 'directive',
-            key: 'auth_directive',
             label: '自定义指令',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/Directive'),
           },
@@ -109,7 +110,6 @@ const routes = [
             path: '/auth/component',
             meta: {key: 'auth_component'},
             name: 'component',
-            key: 'auth_component',
             label: '函数式组件',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/component'),
           },
@@ -117,7 +117,10 @@ const routes = [
       },
       {
         path: '/403',
-        hiddenInMenu: true, //是否需要渲染到侧边栏菜单,默认为true。
+        // name: '403',
+        // label: '403',
+        // meta: { icon: 'md-briefcase'},
+        // hiddenInMenu: true, //是否需要渲染到侧边栏菜单,默认为true。
         component: () =>
           import(
             /* webpackChunkName: 'dashboard' */ "../views/403"

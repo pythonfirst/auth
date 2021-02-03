@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { Menu } from "view-design";
 export default {
   name: 'submenus',
   props: {
@@ -28,7 +27,6 @@ export default {
       default: () => ({})
     },
   }
-
 }
 </script>
 

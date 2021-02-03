@@ -7,7 +7,9 @@
         <MenuItem
           v-if="!option.children"
           :key="option.index"
-          :name="option.index">
+          :name="option.index"
+          :to="option.path"
+          >
           <Icon :type="option.meta.icon" />
           {{option.label}}
         </MenuItem>
@@ -28,41 +30,6 @@ export default {
   data() {
     const menuList = this.getMenuList(this.$router.options.routes);
     return {
-      menus: [
-        {
-          index: '1',
-          label: 'option1',
-          icon: 'ios-navigate',
-        },
-        {
-          index: '2',
-          label: 'option2',
-          icon: 'ios-navigate',
-          children: [
-            {
-              index: '1-1',
-              label: 'options1-1',
-            }
-          ]
-        },
-        {
-          index: '3',
-          label: 'option3',
-          icon: 'ios-navigate',
-          children: [
-            {
-              index: '3-1',
-              label: 'option3-1',
-              children: [
-                {
-                  index: '3-1-1',
-                  label: 'option3-1-1',
-                }
-              ]
-            }
-          ]
-        }
-      ],
       menuList,
     }
   },
@@ -75,7 +42,8 @@ export default {
     getMenuList(routes, i='') {
       let menuList = [];
       routes.forEach((route, index) => {
-        if (route.name && !route.hiddenInMenu && check(route.key)) {
+        // 存在name && 没有设置隐藏 && 权限检测 （如果没有设置key默认不需要权限
+        if (route.name && !route.hiddenInMenu && check(route?.meta?.key)) {
           const newRoute = {...route}
           newRoute.index = i ? `${i}-${index}` : `${index}`;  // menuitem 的key/name
           if (newRoute.children) {
@@ -83,7 +51,7 @@ export default {
             newRoute.children = this.getMenuList(route.children, index);
           }
           menuList.push(newRoute)
-        } else if (!route.name && !route.hiddenInMenu && route.children && check(route.key)) {
+        } else if (!route.name && !route.hiddenInMenu && route.children && check(route?.meta?.key)) {
           menuList.push(...this.getMenuList(route.children));
         }
       });

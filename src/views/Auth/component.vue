@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Authorized :role="'dashboard_analysis='">
+    <Authorized :permission="'dashboard_analysis='">
       <C></C>
     </Authorized>
     <D></D>
