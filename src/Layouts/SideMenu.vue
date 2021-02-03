@@ -48,7 +48,7 @@ export default {
           newRoute.index = i ? `${i}-${index}` : `${index}`;  // menuitem 的key/name
           if (newRoute.children) {
             delete newRoute.children;
-            newRoute.children = this.getMenuList(route.children, index);
+            newRoute.children = this.getMenuList(route.children, newRoute.index);
           }
           menuList.push(newRoute)
         } else if (!route.name && !route.hiddenInMenu && route.children && check(route?.meta?.key)) {

@@ -84,13 +84,26 @@ const routes = [
             meta: {key: 'dashboard_chart'},
             name: 'chart',
             label: '图表页',
-            component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Chart'),
+            component: { render: (h) => h('router-view') },
+            children: [
+              {
+                path: '/dashboard/chart',
+                redirect: '/dashboard/chart/column',
+              },
+              {
+                path: '/dashboard/chart/column',
+                meta: {key: 'dashboard_chart_column'},
+                name: 'column',
+                label: '柱形图',
+                 component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Chart'),
+              }
+            ]
           },
         ],
       },
       {
         path: '/auth',
-        name: '权限控制',
+        name: 'auth',
         label: '权限控制',
         meta: { icon: 'md-briefcase', key: 'auth'},
         component: { render: (h) => h('router-view') },
