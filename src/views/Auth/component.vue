@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import A from './components/A';
-import B from './components/B';
 import C from './components/C';
 import D from './components/D';
 import { PERMISSIONS } from '../../const/permission';
 export default {
-  components: { A, B, C, D},
+  components: { C, D},
   data() {
     return {
       key: PERMISSIONS.authC,
