@@ -1,4 +1,5 @@
-import { check } from "../utils/auth";
+// import { check } from "../utils/auth";
+import { check } from '../utils/checkUiPermission'
 
 /**
  *

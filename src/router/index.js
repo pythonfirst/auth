@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import NProgress from 'nprogress';
 import "nprogress/nprogress.css";
 import {check, isLogin} from '@/utils/auth'
-import findLast from "lodash";
+import { PERMISSION } from '../const/permission'
 Vue.use(VueRouter);
 
 /**
@@ -65,7 +65,7 @@ const routes = [
         path: '/dashboard',
         name: 'dashboard',
         label: '工作台',
-        meta: { icon: 'ios-navigate', key: 'dashboard'},
+        meta: { icon: 'ios-navigate', key: PERMISSION.dashboard},
         component: { render: (h) => h('router-view') },
         children: [
           {
@@ -75,13 +75,13 @@ const routes = [
           {
             path: '/dashboard/analysis',
             name: 'analysis',
-            meta: {key: 'dashboard_analysis'},
+            meta: {key: PERMISSION.dashboardAnalysis},
             label: '分析页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Analysis'),
           },
           {
             path: '/dashboard/chart',
-            meta: {key: 'dashboard_chart'},
+            meta: {key: PERMISSION.dashboardChart},
             name: 'chart',
             label: '图表页',
             component: { render: (h) => h('router-view') },
@@ -92,7 +92,7 @@ const routes = [
               },
               {
                 path: '/dashboard/chart/column',
-                meta: {key: 'dashboard_chart_column'},
+                meta: {key: PERMISSION.dashboardChartColumn},
                 name: 'column',
                 label: '柱形图',
                  component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Chart'),
@@ -105,7 +105,7 @@ const routes = [
         path: '/auth',
         name: 'auth',
         label: '权限控制',
-        meta: { icon: 'md-briefcase', key: 'auth'},
+        meta: { icon: 'md-briefcase', key: PERMISSION.auth},
         component: { render: (h) => h('router-view') },
         children: [
           {
@@ -114,14 +114,14 @@ const routes = [
           },
           {
             path: '/auth/directive',
-            meta: {key: 'auth_directive'},
+            meta: {key: PERMISSION.authDirective},
             name: 'directive',
             label: '自定义指令',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/Directive'),
           },
           {
             path: '/auth/component',
-            meta: {key: 'auth_component'},
+            meta: {key: PERMISSION.authComponent},
             name: 'component',
             label: '函数式组件',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/component'),

@@ -1,5 +1,5 @@
 <script>
-import { check } from "../utils/auth";
+import { check } from "../utils/checkUiPermission";
 export default {
   functional: true,
   render(h, context) {

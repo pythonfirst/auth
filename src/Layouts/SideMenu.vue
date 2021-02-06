@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import { check } from '../utils/auth'
-import submenus from './submenus'
+import { check } from '../utils/checkUiPermission';
+import submenus from './submenus';
 export default {
   name: 'SideMenu',
   components: {
