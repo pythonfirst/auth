@@ -1,4 +1,4 @@
-const PERMISSIONS = {
+export const PERMISSIONS = {
   /**
    * [index, key]
    * index代表权限空间

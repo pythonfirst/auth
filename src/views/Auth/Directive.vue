@@ -1,6 +1,6 @@
 <template>
   <div>
-    <A v-permission="PERMISSION.authA"></A>
+    <A v-permission="key"></A>
     <B></B>
     <!-- todo: 引入多层多个组件 -->
   </div>
@@ -10,9 +10,14 @@
 import A from './components/A';
 import B from './components/B';
 import C from './components/C';
-import { PERMISSION } from '../../const/permission';
+import { PERMISSIONS } from '../../const/permission';
 export default {
-  components: { A, B, C}
+  components: { A, B, C},
+  data() {
+    return {
+      key: PERMISSIONS.authA,
+    }
+  },
 }
 </script>
 

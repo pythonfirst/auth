@@ -2,8 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import NProgress from 'nprogress';
 import "nprogress/nprogress.css";
-import {check, isLogin} from '@/utils/auth'
-import { PERMISSION } from '../const/permission'
+import {check, isLogin} from '../utils/checkUiPermission'
+import { PERMISSIONS } from '../const/permission'
 Vue.use(VueRouter);
 
 /**
@@ -65,7 +65,7 @@ const routes = [
         path: '/dashboard',
         name: 'dashboard',
         label: '工作台',
-        meta: { icon: 'ios-navigate', key: PERMISSION.dashboard},
+        meta: { icon: 'ios-navigate', key: PERMISSIONS.dashboard},
         component: { render: (h) => h('router-view') },
         children: [
           {
@@ -75,13 +75,13 @@ const routes = [
           {
             path: '/dashboard/analysis',
             name: 'analysis',
-            meta: {key: PERMISSION.dashboardAnalysis},
+            meta: {key: PERMISSIONS.dashboardAnalysis},
             label: '分析页',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Analysis'),
           },
           {
             path: '/dashboard/chart',
-            meta: {key: PERMISSION.dashboardChart},
+            meta: {key: PERMISSIONS.dashboardChart},
             name: 'chart',
             label: '图表页',
             component: { render: (h) => h('router-view') },
@@ -92,7 +92,7 @@ const routes = [
               },
               {
                 path: '/dashboard/chart/column',
-                meta: {key: PERMISSION.dashboardChartColumn},
+                meta: {key: PERMISSIONS.dashboardChartColumn},
                 name: 'column',
                 label: '柱形图',
                  component: () => import(/* webpackChunkName: "analysis" */ '../views/Dashboard/Chart'),
@@ -105,7 +105,7 @@ const routes = [
         path: '/auth',
         name: 'auth',
         label: '权限控制',
-        meta: { icon: 'md-briefcase', key: PERMISSION.auth},
+        meta: { icon: 'md-briefcase', key: PERMISSIONS.auth},
         component: { render: (h) => h('router-view') },
         children: [
           {
@@ -114,14 +114,14 @@ const routes = [
           },
           {
             path: '/auth/directive',
-            meta: {key: PERMISSION.authDirective},
+            meta: {key: PERMISSIONS.authDirective},
             name: 'directive',
             label: '自定义指令',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/Directive'),
           },
           {
             path: '/auth/component',
-            meta: {key: PERMISSION.authComponent},
+            meta: {key: PERMISSIONS.authComponent},
             name: 'component',
             label: '函数式组件',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/component'),
