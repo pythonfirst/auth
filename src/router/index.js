@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import NProgress from 'nprogress';
 import "nprogress/nprogress.css";
 import {check, isLogin} from '@/utils/auth'
-import findLast from "lodash";
 Vue.use(VueRouter);
 
 /**
@@ -125,6 +124,25 @@ const routes = [
             name: 'component',
             label: '函数式组件',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/Auth/component'),
+          },
+        ]
+      },
+      {
+        path: '/keep-alive',
+        name: 'keepAlive',
+        label: 'keep-alive',
+        meta: { icon: 'md-briefcase', key: 'auth'},
+        component: { render: (h) => h('router-view') },
+        children: [
+          {
+            path: '/keep-alive',
+            redirect: '/keep-alive/component',
+          },
+          {
+            path: '/keep-alive/component',
+            name: 'directive',
+            label: '组件',
+            component: () => import(/* webpackChunkName: "analysis" */ '../views/keepAlive/component'),
           },
         ]
       },
