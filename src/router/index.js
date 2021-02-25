@@ -65,7 +65,7 @@ const routes = [
         name: 'dashboard',
         label: '工作台',
         meta: { icon: 'ios-navigate', key: 'dashboard'},
-        component: { render: (h) => h('router-view') },
+        component: () => import(/* webpackChunkName: "keepAlive" */ '../views/Dashboard/index'),
         children: [
           {
             path: '/dashboard',
@@ -132,7 +132,7 @@ const routes = [
         name: 'keepAlive',
         label: 'keep-alive',
         meta: { icon: 'md-briefcase', key: 'auth'},
-        component: { render: (h) => h('router-view') },
+        component: () => import(/* webpackChunkName: "keepAlive" */ '../views/keepAlive/index'),
         children: [
           {
             path: '/keep-alive',
@@ -140,7 +140,7 @@ const routes = [
           },
           {
             path: '/keep-alive/component',
-            name: 'directive',
+            name: 'keepAliveComponent',
             label: '组件',
             component: () => import(/* webpackChunkName: "analysis" */ '../views/keepAlive/component'),
           },
